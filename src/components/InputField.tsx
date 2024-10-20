@@ -6,9 +6,9 @@ type InputFieldProps = {
     register: any;
     name: string;
     defaultValue?: string;
-    error: FieldError;
+    error?: FieldError;
     inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
-}
+};
 
 
 
