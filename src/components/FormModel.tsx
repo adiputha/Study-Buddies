@@ -1,8 +1,46 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useState } from "react";
-import TeacherForm from "./forms/TeacherForm";
+// import TeacherForm from "./forms/TeacherForm";
+// import StudentForm from "./forms/StudentForm";
+
+const TeacherForm = dynamic(() => import("./forms/TeacherForm"),{
+  loading: () => <h1>Loading...</h1>
+});
+const StudentForm = dynamic(() => import("./forms/StudentForm"),{
+  loading: () => <h1>Loading...</h1>
+});
+const ParentForm = dynamic(() => import("./forms/ParentForm"));
+const AnnouncementForm = dynamic(() => import("./forms/AnnouncementForm"));
+const AssignmentForm = dynamic(() => import("./forms/AssignmentForm"));
+const ClassForm = dynamic(() => import("./forms/ClassForm"));
+const EventForm = dynamic(() => import("./forms/EventForm"));
+const ExamForm = dynamic(() => import("./forms/ExamForm"));
+const LessonForm = dynamic(() => import("./forms/LessonForm"));
+const ResultForm = dynamic(() => import("./forms/ResultForm"));
+const SubjectForm = dynamic(() => import("./forms/SubjectForm"));
+const AttendanceForm = dynamic(() => import("./forms/AttendanceForm"));
+
+
+const forms: {
+  [key: string]: (type: "create" | "update", data?: any) => JSX.Element;
+} = {
+  teacher: (type, data) => <TeacherForm type={type} data={data} />,
+  student: (type, data) => <StudentForm type={type} data={data} />,
+  parent: (type, data) => <ParentForm type={type} data={data} />,
+  announcement: (type, data) => <AnnouncementForm type={type} data={data} />,
+  assignment: (type, data) => <AssignmentForm type={type} data={data} />,
+  class: (type, data) => <ClassForm type={type} data={data} />,
+  event: (type, data) => <EventForm type={type} data={data} />,
+  exam: (type, data) => <ExamForm type={type} data={data} />,
+  lesson: (type, data) => <LessonForm type={type} data={data} />,
+  result: (type, data) => <ResultForm type={type} data={data} />,
+  subject: (type, data) => <SubjectForm type={type} data={data} />,
+  attendance: (type, data) => <AttendanceForm type={type} data={data} />,
+};
+
 const FormModel = ({
   table,
   type,
@@ -38,12 +76,18 @@ const FormModel = ({
 
   const Form = () => {
     return type === "delete" && id ? (
-      <form action='' className="p-4 flex flex-col gap-4">
-        <span className="text-center font-medium">Are you sure you want to delete this {table}?</span>
-        <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">Delete</button>
+      <form action="" className="p-4 flex flex-col gap-4">
+        <span className="text-center font-medium">
+          Are you sure you want to delete this {table}?
+        </span>
+        <button className="bg-red-700 text-white py-2 px-4 rounded-md border-none w-max self-center">
+          Delete
+        </button>
       </form>
+    ) : type === "create" || type === "update" ? (
+      forms[table](type, data)
     ) : (
-      <TeacherForm type="create"/>
+      "Form not found"
     );
   };
 

@@ -1,5 +1,7 @@
 # Study Buddies School Management Dashboard
 
+This is an online school management system. this system programmed using typescript and next.js framework. The tailwind css is also used.
+
 ## Getting Started
 
 First, run the development server:
